@@ -4,6 +4,8 @@ namespace App;
 
 class Helpers
 {
+    const STUBS = 'stubs';
+
     /**
      * get stubs path
      *
@@ -13,6 +15,6 @@ class Helpers
     public static function stubsPath(string $path = ''): string
     {
         $sep = empty($path) ? '' : DIRECTORY_SEPARATOR;
-        return base_path('stubs'. $sep . $path);
+        return storage_path(self::STUBS . $sep . $path);
     }
 }

@@ -3,7 +3,7 @@
 use App\Helpers;
 
 it('has helpers class', function () {
-    $stubsPath = base_path('stubs');
+    $stubsPath = storage_path('stubs');
 
     expect($stubsPath)->toBe(Helpers::stubsPath());
 
