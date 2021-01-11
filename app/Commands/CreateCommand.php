@@ -52,7 +52,7 @@ class CreateCommand extends Command
             $this->error('an error occured, please try again later');
         }
 
-        $this->info("File " . File::name($file) . ' was Created Successfully');
+        $this->info("File " . File::basename($file) . ' was Created Successfully');
 
         if ($this->hasOption('do-not-open')) {
             return;

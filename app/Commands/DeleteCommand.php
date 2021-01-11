@@ -5,23 +5,24 @@ namespace App\Commands;
 use App\Helpers;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use LaravelZero\Framework\Commands\Command;
 
-class OpenCommand extends Command
+class DeleteCommand extends Command
 {
     /**
      * The signature of the command.
      *
      * @var string
      */
-    protected $signature = 'open {file}';
+    protected $signature = 'delete {file}';
 
     /**
      * The description of the command.
      *
      * @var string
      */
-    protected $description = 'open stub file for editing';
+    protected $description = 'delete stub file';
 
     /**
      * Execute the console command.
@@ -31,15 +32,21 @@ class OpenCommand extends Command
     public function handle()
     {
         $file = Helpers::stubsPath($this->argument('file'));
-        $fileName = File::basename($file);        
+        $fileName = File::basename($file);
 
-        if (!file_exists($file)) {
+        if (!File::exists($file)) {
             $this->error('file ' . $fileName . ' not found');
             return;
         }
 
-        $this->warn('Opening file...');
-        exec(config('editor') . ' ' . $file);
+        $deleted = unlink($file);
+
+        if (!$deleted) {
+            $this->error('an error occured');
+            return;
+        }
+
+        $this->info($fileName . ' Delete Successfully');
     }
 
     /**
