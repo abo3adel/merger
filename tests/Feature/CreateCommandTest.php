@@ -3,7 +3,7 @@
 use App\Helpers;
 
 it('will create directories', function () {
-    $filePath = 'laravel/composer.json';
+    $filePath = 'looaCreate/composer.json';
     expect(file_exists(Helpers::stubsPath($filePath)))->toBe(false);
 
     $this->artisan('create -d ' . $filePath)->expectsOutput('Creating: ' . $filePath);
@@ -14,7 +14,7 @@ it('will create directories', function () {
 });
 
 it('will show error if file was created', function() {
-    $filePath = 'laravel/composer.json';
+    $filePath = 'looaCreate/composer.json';
 
     $this->artisan('create -d ' . $filePath)->expectsOutput('Creating: ' . $filePath);
 

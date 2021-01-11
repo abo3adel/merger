@@ -20,4 +20,6 @@ it('will delete file', function() {
     );
 
     expect(file_exists(Helpers::stubsPath($file)))->toBe(false);
+    exec('rm -rf ' . dirname(Helpers::stubsPath('lara/composer.json')));;
+
 });

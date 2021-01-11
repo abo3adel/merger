@@ -7,9 +7,9 @@ it('has helpers class', function () {
 
     expect($stubsPath)->toBe(Helpers::stubsPath());
 
-    exec("mkdir {$stubsPath}\laravel");
+    exec("mkdir {$stubsPath}\looa");
 
-    expect($stubsPath.'\laravel', Helpers::stubsPath('laravel'));
+    expect($stubsPath.'\looa', Helpers::stubsPath('looa'));
 
-    exec("rm -rf {$stubsPath}\laravel");
+    exec("rm -rf {$stubsPath}\looa");
 });
