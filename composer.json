@@ -41,5 +41,13 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "bin": ["cm"]
+    "bin": ["cm"],
+    "scripts": {
+        "md": ["@php artisan ide-helper:models --nowrite"],
+        "md-pre": [
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta",
+            "@php artisan ide-helper:models --nowrite"
+        ]
+    }
 }
