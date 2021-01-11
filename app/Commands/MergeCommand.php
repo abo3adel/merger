@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 use App\Helpers;
+use App\MergeUtil\EnvFile;
 use App\MergeUtil\JsonFile;
 use App\MergeUtil\MergerInterface;
 use Illuminate\Console\Scheduling\Schedule;
@@ -60,11 +61,10 @@ class MergeCommand extends Command
     private function scanDir(string $dir): void
     {
         chdir($dir);
-        $files = glob('*');
+        $files = glob('.env') + glob('*');
         $scanned = [];
-
         foreach ($files as $file) {
-            if (is_dir($file) && !in_array($file, $scanned)) {
+            if (is_dir($file) && !isset($scanned[$file])) {
                 $scanned[] = $file;
                 if (!$this->pathHaveStubs($file)) {
                     continue;
@@ -72,7 +72,6 @@ class MergeCommand extends Command
                 $this->scanDir($file);
                 continue;
             }
-
             $this->warn('Merging ' . $file . ' ...');
             $this->attachToMerger($file, $dir);
             $this->info($file . ' Merged Successfully');
@@ -95,6 +94,8 @@ class MergeCommand extends Command
 
         if ($type === 'json') {
             $this->mergerInstance(new JsonFile, $file, $dir);
+        } elseif ($type === 'env') {
+            $this->mergerInstance(new EnvFile, $file, $dir);
         }
     }
 

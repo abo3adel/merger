@@ -1,0 +1,57 @@
+{
+    "description": "not MeEMEMEME",
+    "keywords": [
+        "sadsadsad",
+        "wewewewe"
+    ],
+    "require": {
+        "laravel\/laravel": "~59.0",
+        "mcamara/laravel-localization": "^1.5",
+        "nicolaslopezj/searchable": "^1.13",
+        "omnipay/paypal": "^3.0",
+        "spatie/laravel-sitemap": "^5.8",
+        "vinkla/hashids": "^8.1"
+    },
+    "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.6",
+        "facade/ignition": "^2.0",
+        "fzaninotto/faker": "^1.9.1"
+    },
+    "config": {
+        "optimize-autoloader": false,
+        "qqqqqqqq": 25,
+        "ewewewe": false
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "laravel/telescope",
+                "bumbummen99/shoppingcart",
+                "gloudemans/shoppingcart"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "NO\\": "no/"
+        },
+        "classmap": [
+            "asdasde/eeee",
+            "qqqq/factories"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Goo\\": "goo/"
+        }
+    },
+    "minimum-stability": "dev",
+    "scripts": {
+        "md": ["@php artisan ide-helper:models --nowrite"],
+        "md-pre": [
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta",
+            "@php artisan ide-helper:models --nowrite"
+        ]
+    }
+}
