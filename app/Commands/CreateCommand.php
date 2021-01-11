@@ -54,7 +54,7 @@ class CreateCommand extends Command
 
         $this->info("File " . File::basename($file) . ' was Created Successfully');
 
-        if ($this->hasOption('do-not-open')) {
+        if ($this->option('do-not-open')) {
             return;
         }
 
