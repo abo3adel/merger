@@ -24,11 +24,11 @@ class JsonFile extends Merger
          * array of keys that it`s value should be replaced
          */
         $replaceAbleKeys = [
-            'require',
-            'require-dev',
-            'dependencies',
-            'devDependencies',
-            'config',
+            'require' => 0,
+            'require-dev' => 0,
+            'dependencies' => 0,
+            'devDependencies' => 0,
+            'config' => 0,
         ];
 
         /**
@@ -36,16 +36,16 @@ class JsonFile extends Merger
          * but instead append new values with old values
          */
         $reservedKeys = [
-            'autoload',
-            'autoload-dev',
-            'extra',
-            'scripts',
+            'autoload' => 0,
+            'autoload-dev' => 0,
+            'extra' => 0,
+            'scripts' => 0,
         ];
 
         foreach ($stubFile->toBase() as $key => $val) {
-            if (in_array($key, $replaceAbleKeys)) {
+            if (isset($replaceAbleKeys[$key])) {
                 $this->append($output[$key], $val, true);
-            } elseif (in_array($key, $reservedKeys)) {
+            } elseif (isset($reservedKey[$key])) {
                 $this->append($output[$key], $val);
             } else {
                 $output[$key] = $val;
