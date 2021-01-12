@@ -1,0 +1,11 @@
+build: false
+clone_depth: 2
+clone_folder: c:\projects\symfony
+
+cache:
+    - composer.phar
+    - .phpunit -> phpunit
+
+init:
+    - SET PATH=c:\php;%PATH%
+    - SET COMPOSER_NO_INTERACTION=1
