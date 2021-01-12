@@ -80,3 +80,18 @@ call:
     - readmeFirst
     - will be appended anyway
 YML;
+
+$baseGit = <<<'GIT'
+/vendor
+/.idea
+/.vscode
+GIT;
+
+$stubGit = <<<'GIT'
+_ide_helper.php
+_ide_helper_models.php
+.phpstorm.meta.php
+/.vscode
+/storage/stubs/*
+* text=auto
+GIT;

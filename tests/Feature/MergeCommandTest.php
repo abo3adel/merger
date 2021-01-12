@@ -70,3 +70,16 @@ it('will merge yaml files', function () use ($stubYmlContent, $baseYmlContent) {
         $stubYmlContent, $baseYmlContent
     ]);
 });
+
+it('will merge .git files', function () use ($stubGit, $baseGit) {
+    doTest(function ($self, $basePath, $fileName) {
+        $updatedFile =  explode("\n", file_get_contents($basePath . $fileName));
+        expect(in_array("/vendor\r", $updatedFile))->toBe(true);
+        expect(in_array("_ide_helper_models.php\r", $updatedFile))
+            ->toBe(true);
+        expect(in_array("* text=auto", $updatedFile))->toBe(true);
+    }, $this, '.gitignoreme', [
+        $stubGit,
+        $baseGit
+    ]);
+});

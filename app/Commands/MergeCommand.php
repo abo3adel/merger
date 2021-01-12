@@ -4,6 +4,7 @@ namespace App\Commands;
 
 use App\Helpers;
 use App\MergeUtil\EnvFile;
+use App\MergeUtil\GitFile;
 use App\MergeUtil\JsonFile;
 use App\MergeUtil\MergerInterface;
 use App\MergeUtil\YamlFile;
@@ -62,7 +63,7 @@ class MergeCommand extends Command
     private function scanDir(string $dir): void
     {
         chdir($dir);
-        $files = glob('.env') + glob('*');
+        $files = glob('.[eng]*') + glob('*');
         $scanned = [];
         foreach ($files as $file) {
             if (is_dir($file) && !isset($scanned[$file])) {
@@ -99,6 +100,8 @@ class MergeCommand extends Command
             $this->mergerInstance(new EnvFile, $file, $dir);
         } elseif ($type === 'yml' || $type === 'yaml') {
             $this->mergerInstance(new YamlFile, $file, $dir);
+        } elseif (strpos($type, 'git') !== false) {
+            $this->mergerInstance(new GitFile, $file, $dir);
         }
     }
 
