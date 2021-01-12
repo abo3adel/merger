@@ -2,12 +2,13 @@
 
 namespace App\MergeUtil;
 
-use Dotenv\Dotenv;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
+use NunoMaduro\Collision\ConsoleColor;
+use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Yaml;
 
-class EnvFile extends Merger
+
+class YamlFile extends Merger
 {
     /**
      * merge two files with same names
@@ -22,7 +23,6 @@ class EnvFile extends Merger
         $baseFile = $this->readFile($file, $this->userDir);
 
         if (is_null($stubFile) || is_null($baseFile)) {
-            printf("\e[1;37;41mError: Unable to parse the Env file: %s\e[0m\n\n", $file);
             return;
         }
 
@@ -30,16 +30,9 @@ class EnvFile extends Merger
             array_merge($baseFile, $stubFile) :
             $baseFile + $stubFile;
 
-        $output = [];
-        foreach ($baseFile as $key => $val) {
-            $output[] = strpos($val, ' ') === false ?
-                $key . '=' . $val :
-                $key . '="' . $val .'"';
-        }
-
         File::put(
             $this->userDir. DIRECTORY_SEPARATOR . $file,
-            implode("\n", $output)
+            Yaml::dump($baseFile)
         );
     }
 
@@ -53,7 +46,15 @@ class EnvFile extends Merger
     private function readFile(string $file, ?string $dir = null)
     {
         is_dir($dir) ? chdir($dir) : '';
-        if (!file_exists($dir . '/' . $file)) return null;
-        return Dotenv::createArrayBacked($dir)->load();
+
+        $value = null;
+
+        try {
+            $value = Yaml::parseFile($file);
+        } catch (ParseException $exception) {
+            printf("\e[1;37;41mError: Unable to parse the YAML file: %s\e[0m\n\n", $file);
+        }
+
+        return $value;
     }
 }

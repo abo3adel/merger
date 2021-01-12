@@ -6,6 +6,7 @@ use App\Helpers;
 use App\MergeUtil\EnvFile;
 use App\MergeUtil\JsonFile;
 use App\MergeUtil\MergerInterface;
+use App\MergeUtil\YamlFile;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
@@ -96,6 +97,8 @@ class MergeCommand extends Command
             $this->mergerInstance(new JsonFile, $file, $dir);
         } elseif ($type === 'env') {
             $this->mergerInstance(new EnvFile, $file, $dir);
+        } elseif ($type === 'yml' || $type === 'yaml') {
+            $this->mergerInstance(new YamlFile, $file, $dir);
         }
     }
 

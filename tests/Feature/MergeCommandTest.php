@@ -3,50 +3,9 @@
 use App\Helpers;
 use Dotenv\Dotenv;
 use Illuminate\Support\Facades\File;
+use Symfony\Component\Yaml\Yaml;
 
-$cmpContent = <<<'JSN'
-{
-    "description": "not Me",
-    "require": {
-        "laravel\/laravel": "~1.0",
-        "mcamara/laravel-localization": "^1.5",
-        "nicolaslopezj/searchable": "^1.13",
-        "omnipay/paypal": "^3.0",
-        "spatie/laravel-sitemap": "^5.8",
-        "vinkla/hashids": "^8.1"
-    }
-}
-JSN;
-
-$stubContent = <<<'JSN'
-{    
-    "description": "new something long",
-    "require": {
-        "laravel\/laravel": "~59.0",
-        "mcamara/laravel-localization": "^1.5",
-        "nicolaslopezj/searchable": "^1.13"
-    }
-}
-JSN;
-
-$baseEnvContent = <<<'ENV'
-APP_NAME=laravel
-APP_KEY=base64:uGFvrjWQFEMHptgq7bQXuRPSnEc8P5H3r8d75F2TNa4=
-APP_DEBUG=true
-DB_DATABASE=homestead
-DB_USERNAME=
-DB_PASSWORD=
-ENV;
-
-$stubEnvContent = <<<'ENV'
-APP_NAME="some thing new"
-APP_DEBUG=false
-DB_DATABASE=mydb
-DB_USERNAME=dbName
-DB_PASSWORD=password
-
-TELESCOPE_ENABLED=false
-ENV;
+include_once __DIR__ . '\\content.php';
 
 it('will show error if directory not found', function () {
     $this->artisan('merge laro')->expectsOutput('Directory not found');
@@ -134,4 +93,26 @@ it('will read env files', function () use ($stubEnvContent, $baseEnvContent) {
 
     delete($fullPath);
     delete($basePath . '.env');
+});
+
+it('will merge yaml files', function () use ($stubYmlContent, $baseYmlContent) {
+    $path = 'laraMerge/';
+    $fullPath = Helpers::stubsPath($path) . '/';
+    $basePath = storage_path('..') . '/';
+    delete($fullPath);
+    // delete($basePath . 'con.yml');
+
+    $this->artisan('create -d '. $path .'filec.yml');
+    File::put($fullPath . 'filec.yml', $stubYmlContent);
+    File::put($basePath . 'filec.yml', $baseYmlContent);
+
+    $this->artisan('merge -f ' . $path)->expectsOutput('Fetching your files...');
+
+    $updatedFile = (object)Yaml::parseFile($basePath . 'filec.yml');
+    expect($updatedFile->build)->toBe(true);
+    expect($updatedFile->call[1])->toBe('will be appended anyway');
+    expect($updatedFile->cache[2])->toBe('SET SYMFONY_PHPUNIT_DISABLE_RESULT_CACHE=1');
+
+    delete($fullPath);
+    delete($basePath . 'filec.yml');
 });
