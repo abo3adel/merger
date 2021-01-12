@@ -7,6 +7,7 @@ use App\MergeUtil\EnvFile;
 use App\MergeUtil\GitFile;
 use App\MergeUtil\JsonFile;
 use App\MergeUtil\MergerInterface;
+use App\MergeUtil\XmlFile;
 use App\MergeUtil\YamlFile;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Str;
@@ -102,6 +103,8 @@ class MergeCommand extends Command
             $this->mergerInstance(new YamlFile, $file, $dir);
         } elseif (strpos($type, 'git') !== false) {
             $this->mergerInstance(new GitFile, $file, $dir);
+        } elseif ($type === 'xml' || $type === 'dist') {
+            $this->mergerInstance(new XmlFile, $file, $dir);
         }
     }
 

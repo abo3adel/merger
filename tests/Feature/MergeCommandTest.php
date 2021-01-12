@@ -83,3 +83,14 @@ it('will merge .git files', function () use ($stubGit, $baseGit) {
         $baseGit
     ]);
 });
+
+it('will merge xml files', function () use ($stubXml, $baseXml) {
+    doTest(function ($self, $basePath, $fileName) {
+        $updatedFile =  \LaLit\XML2Array::createArray(file_get_contents($basePath . $fileName))['phpunit'];
+        expect($updatedFile['php']['server'][7]['@attributes']['value'])->toBe('false');
+        expect($updatedFile['@attributes']['colors'])->toBe('false');
+    }, $this, bin2hex(random_bytes(5)) . '.xml.dist', [
+        $stubXml,
+        $baseXml
+    ], false);
+});

@@ -4,8 +4,62 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "de3a92dc02def45c23b7ab03a805ccbc",
+    "content-hash": "d720c98837827a2c3ec281891235a8ce",
     "packages": [
+        {
+            "name": "digitickets/lalit",
+            "version": "3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/digitickets/lalit.git",
+                "reference": "b8588ce8c1c744929b52f10c8b752fc27952fde8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/digitickets/lalit/zipball/b8588ce8c1c744929b52f10c8b752fc27952fde8",
+                "reference": "b8588ce8c1c744929b52f10c8b752fc27952fde8",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "php": ">=7"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0",
+                "phpunit/phpunit": "^6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LaLit\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache License 2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Lalit Patel",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Richard Quadling",
+                    "role": "Developer"
+                }
+            ],
+            "description": "GitHub copy of LaLit's XML2Array and Array2XML",
+            "homepage": "http://www.lalit.org/lab",
+            "keywords": [
+                "array",
+                "xml"
+            ],
+            "support": {
+                "issues": "https://github.com/digitickets/lalit/issues",
+                "source": "https://github.com/digitickets/lalit/tree/master"
+            },
+            "time": "2019-02-01T14:36:07+00:00"
+        },
         {
             "name": "graham-campbell/result-type",
             "version": "v1.0.1",

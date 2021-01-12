@@ -95,3 +95,64 @@ _ide_helper_models.php
 /storage/stubs/*
 * text=auto
 GIT;
+
+$baseXml = <<<'XM'
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit colors="true"
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
+         stopOnFailure="false">
+    <testsuites>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./tests/Feature</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <server name="APP_ENV" value="testing"/>
+        <server name="BCRYPT_ROUNDS" value="4"/>
+        <server name="CACHE_DRIVER" value="array"/>
+        <server name="DB_CONNECTION" value="mysql"/>
+        <server name="DB_DATABASE" value=":memory:"/>
+        <server name="MAIL_MAILER" value="array"/>
+        <server name="QUEUE_CONNECTION" value="sync"/>
+        <server name="SESSION_DRIVER" value="array"/>
+        <server name="TELESCOPE_ENABLED" value="true"/>
+    </php>
+</phpunit>
+XM;
+
+$stubXml = <<<'XM'
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit colors="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false">
+    <testsuites>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">./tests/Unit</directory>
+        </testsuite>
+    </testsuites>
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">./app</directory>
+        </include>
+    </coverage>
+    <php>
+        <server name="APP_ENV" value="testing"/>
+        <server name="BCRYPT_ROUNDS" value="5"/>
+        <server name="CACHE_DRIVER" value="array"/>
+        <!-- <server name="DB_CONNECTION" value="sqlite"/> -->
+        <server name="DB_DATABASE" value=":memory:"/>
+        <server name="MAIL_MAILER" value="array"/>
+        <server name="QUEUE_CONNECTION" value="sync"/>
+        <server name="SESSION_DRIVER" value="array"/>
+        <server name="TELESCOPE_ENABLED" value="false"/>
+    </php>
+</phpunit>
+XM;
