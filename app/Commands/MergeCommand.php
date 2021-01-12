@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 use App\Helpers;
+use App\MergeUtil\AppendToFile;
 use App\MergeUtil\EnvFile;
 use App\MergeUtil\GitFile;
 use App\MergeUtil\JsonFile;
@@ -105,6 +106,9 @@ class MergeCommand extends Command
             $this->mergerInstance(new GitFile, $file, $dir);
         } elseif ($type === 'xml' || $type === 'dist') {
             $this->mergerInstance(new XmlFile, $file, $dir);
+        } else {
+            // append text to any file type
+            $this->mergerInstance(new AppendToFile, $file, $dir);
         }
     }
 

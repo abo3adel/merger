@@ -4,6 +4,7 @@ use App\Helpers;
 use Dotenv\Dotenv;
 use Illuminate\Support\Facades\File;
 use Symfony\Component\Yaml\Yaml;
+use Illuminate\Support\Str;
 
 include_once __DIR__ . '\\content.php';
 include_once __DIR__ . '\\helpers.php';
@@ -92,5 +93,15 @@ it('will merge xml files', function () use ($stubXml, $baseXml) {
     }, $this, bin2hex(random_bytes(5)) . '.xml.dist', [
         $stubXml,
         $baseXml
+    ], false);
+});
+
+it('will append to other files', function () use ($baseJs, $stubJs) {
+    doTest(function ($self, $basePath, $fileName) {
+        $updatedFile = file_get_contents($basePath . $fileName);
+    expect(Str::contains($updatedFile, '.version();'))->toBe(true);        
+    }, $this, bin2hex(random_bytes(5)) . '.mix.js', [
+        $stubJs,
+        $baseJs
     ], false);
 });

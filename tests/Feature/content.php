@@ -156,3 +156,24 @@ $stubXml = <<<'XM'
     </php>
 </phpunit>
 XM;
+
+$baseJs = <<<'JS'
+const mix = require('laravel-mix');
+
+
+mix.js('resources/js/app.js', 'public/js')
+    .postCss('resources/css/app.css', 'public/css', [
+        //
+    ]);
+JS;
+
+$stubJs = <<<'JS'
+    // .browserSync('laravel.test')
+    .polyfill({
+        enabled: true,
+        useBuiltIns: "usage",
+        targets: {"ie": 10},
+        debug: true
+     })
+    .version();
+JS;
