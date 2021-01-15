@@ -1,36 +1,74 @@
-<p align="center">
-    <img title="Laravel Zero" height="100" src="https://raw.githubusercontent.com/laravel-zero/docs/master/images/logo/laravel-zero-readme.png" />
-</p>
+# Merger
+composer project to merge stub files with project predefined files
+---
+[![Latest Stable Version](https://poser.pugx.org/abo3adel/merger/v)](//packagist.org/packages/abo3adel/merger) [![Total Downloads](https://poser.pugx.org/abo3adel/merger/downloads)](//packagist.org/packages/abo3adel/merger) [![Latest Unstable Version](https://poser.pugx.org/abo3adel/merger/v/unstable)](//packagist.org/packages/abo3adel/merger) [![License](https://poser.pugx.org/abo3adel/merger/license)](//packagist.org/packages/abo3adel/merger)
 
-<p align="center">
-  <a href="https://github.com/laravel-zero/framework/actions"><img src="https://img.shields.io/github/workflow/status/laravel-zero/framework/Tests.svg" alt="Build Status"></img></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/dt/laravel-zero/framework.svg" alt="Total Downloads"></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/v/laravel-zero/framework.svg?label=stable" alt="Latest Stable Version"></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/l/laravel-zero/framework.svg" alt="License"></a>
-</p>
+## Requirements
 
-<h4> <center>This is a <bold>community project</bold> and not an official Laravel one </center></h4>
+- PHP 7.3+
+- composer
 
-Laravel Zero was created by, and is maintained by [Nuno Maduro](https://github.com/nunomaduro), and is a micro-framework that provides an elegant starting point for your console application. It is an **unofficial** and customized version of Laravel optimized for building command-line applications.
+## Project Idea
 
-- Built on top of the [Laravel](https://laravel.com) components.
-- Optional installation of Laravel [Eloquent](https://laravel-zero.com/docs/database/), Laravel [Logging](https://laravel-zero.com/docs/logging/) and many others.
-- Supports interactive [menus](https://laravel-zero.com/docs/build-interactive-menus/) and [desktop notifications](https://laravel-zero.com/docs/send-desktop-notifications/) on Linux, Windows & MacOS.
-- Ships with a [Scheduler](https://laravel-zero.com/docs/task-scheduling/) and  a [Standalone Compiler](https://laravel-zero.com/docs/build-a-standalone-application/).
-- Integration with [Collision](https://github.com/nunomaduro/collision) - Beautiful error reporting
+I have a lot of dependencies to include to any fresh project, so i created this project to quickly install and configure these dependencies
 
-------
+## Installation
 
-## Documentation
+```bash
+composer require abo3adel/merger
+```
 
-For full documentation, visit [laravel-zero.com](https://laravel-zero.com/).
+## Configration
 
-## Support the development
-**Do you like this project? Support it by donating**
+set default editor to open created stub files
+```bash
+merger editor:set code
+```
 
-- PayPal: [Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=66BYDWAT92N6L)
-- Patreon: [Donate](https://www.patreon.com/nunomaduro)
+## Supported Files
+
+<strong>json, xml, yaml, .git*</strong> and for other files: it will append your stubs to any files with the same name and directory
+
+## Usage
+
+- create new stub file
+```bash
+merger create lara/composer.json
+```
+- updated the file with stub code
+```json
+"config": {
+    "sort-packages": false
+},
+"scripts": {
+    "models": ["@php artisan ide-helper:models --nowrite"]
+}
+```
+- add installable packages file (filename must be "install.yml")
+```bash
+merger create lara/install.yml
+```
+- add some packages to install
+```yaml
+composer:
+    - laravel/ui
+    - dev:
+        - sven/artisan-view
+        - barryvdh/laravel-ide-helper
+npm:
+    - include-media
+```
+- then run merger from your fresh project directory
+```bash
+merger merge lara
+```
+this will merge all created stubs and files with the same name, then install all packages
+
+## Contribution
+
+Contributions are **welcome** and will be fully **credited**.
+see [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ## License
 
-Laravel Zero is an open-source software licensed under the MIT license.
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details
