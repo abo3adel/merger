@@ -1,20 +1,25 @@
 {
-    "name": "abo3adel\/commerger",
-    "description": "The Laravel Zero Framework.",
+    "name": "abo3adel\/merger",
+    "description": "merge stub files with project predefined files",
     "keywords": [
-        "framework",
         "laravel",
-        "laravel zero",
-        "console",
-        "cli"
+        "composer",
+        "merger",
+        "project scallfold",
+        "replace predefined files",
+        "replace laravel files",
+        "env",
+        "composer",
+        "npm",
+        "yarn"
     ],
-    "homepage": "https:\/\/laravel-zero.com",
+    "homepage": "https://github.com/abo3adel/merger",
     "type": "project",
     "license": "MIT",
     "authors": [
         {
-            "name": "Nuno Maduro",
-            "email": "enunomaduro@gmail.com"
+            "name": "Ahmed Adel",
+            "email": "abo3adel35@gmail.com"
         }
     ],
     "require": {
@@ -43,12 +48,9 @@
         "sort-packages": true,
         "optimize-autoloader": true
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "bin": [
-        "cm"
-    ],
-    "extra": {
-        "branch-version": "1.0-dev"
-    }
+        "merger"
+    ]
 }
