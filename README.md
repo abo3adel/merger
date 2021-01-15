@@ -32,6 +32,7 @@ merger editor:set code
 ## Usage
 
 - create new stub file
+**Note** by default this will open file, to disable add ```-d``` or ```--do-not-open``` option to the create command
 ```bash
 merger create lara/composer.json
 ```
@@ -63,6 +64,29 @@ npm:
 merger merge lara
 ```
 this will merge all created stubs and files with the same name, then install all packages
+
+## Avaliable Commands
+- create: creates new file then open it in the default editor
+```bash
+merger create {dir}/{file.ext} 
+```
+- open: open stub file for editing
+```bash
+merger open {dir}/{file.ext}
+```
+- delete: delete stub file
+```bash
+merger delete {dir}/{file.ext}
+```
+- merge: merge stub files with actual files and install dependencies
+```bash
+merger merge {dir}
+```
+- editor:set : set default code editor to open files
+```bash
+merger editor:set notepad++
+```
+
 
 ## Contribution
 
