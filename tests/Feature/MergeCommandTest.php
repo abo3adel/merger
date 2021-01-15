@@ -105,3 +105,13 @@ it('will append to other files', function () use ($baseJs, $stubJs) {
         $baseJs
     ], false);
 });
+
+// it('will istall composer and npm packages', function () use ($stubPackage) {
+//     doTest(function ($self, $basePath, $fileName) {
+//     //     $updatedFile = file_get_contents($basePath . $fileName);
+//     // expect(Str::contains($updatedFile, '.version();'))->toBe(true);        
+//     }, $this, 'install.yml', [
+//         $stubPackage,
+//         $stubPackage
+//     ], false);
+// });

@@ -177,3 +177,21 @@ $stubJs = <<<'JS'
      })
     .version();
 JS;
+
+$stubPackage = <<<'PKG'
+composer:
+    - vlucas/phpdotenv
+    - laravel/ui
+    - dev:
+        - sven/artisan-view
+npm:
+    - ts-loader
+    - include-media
+    - dev:
+        - ts-loader
+        - vue-particles
+yarn:
+    - typescript
+    - dev:
+        - vue-property-decorator
+PKG;

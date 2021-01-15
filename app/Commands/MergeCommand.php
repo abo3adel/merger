@@ -6,6 +6,7 @@ use App\Helpers;
 use App\MergeUtil\AppendToFile;
 use App\MergeUtil\EnvFile;
 use App\MergeUtil\GitFile;
+use App\MergeUtil\InstallFile;
 use App\MergeUtil\JsonFile;
 use App\MergeUtil\MergerInterface;
 use App\MergeUtil\XmlFile;
@@ -96,7 +97,9 @@ class MergeCommand extends Command
     {
         $type = File::extension($file);
 
-        if ($type === 'json') {
+        if ($file === 'install.yml' || $file === 'install.yaml') {
+            $this->mergerInstance(new InstallFile, $file, $dir);
+        } elseif ($type === 'json') {
             $this->mergerInstance(new JsonFile, $file, $dir);
         } elseif ($type === 'env') {
             $this->mergerInstance(new EnvFile, $file, $dir);
