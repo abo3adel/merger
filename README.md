@@ -82,6 +82,10 @@ merger delete {dir}/{file.ext}
 ```bash
 merger merge {dir}
 ```
+- dir:list : lists all user created directories or files if user added directory name
+```bash
+merger dir:list {?dir}
+```
 - editor:set : set default code editor to open files
 ```bash
 merger editor:set notepad++
