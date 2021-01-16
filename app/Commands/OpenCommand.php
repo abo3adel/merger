@@ -39,7 +39,7 @@ class OpenCommand extends Command
         }
 
         $this->warn('Opening file...');
-        exec(config('editor') . ' ' . $file);
+        exec(config('app.editor') . ' ' . $file);
     }
 
     /**

@@ -59,7 +59,7 @@ class CreateCommand extends Command
         }
 
         $this->warn('Opening file...');
-        exec(config('editor') . ' ' . Helpers::stubsPath($file));
+        exec(config('app.editor') . ' ' . Helpers::stubsPath($file));
     }
 
     /**
