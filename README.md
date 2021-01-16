@@ -73,14 +73,23 @@ merger create {dir}/{file.ext}
 - open: open stub file for editing
 ```bash
 merger open {dir}/{file.ext}
+
+Options:
+  -d, --do-not-open     do not open the file after creating
 ```
 - delete: delete stub file
 ```bash
 merger delete {dir}/{file.ext}
 ```
-- merge: merge stub files with actual files and install dependencies
+- merge: merge stub files with your project files and install dependencies
 ```bash
 merger merge {dir}
+
+Options:
+  -f, --force           replace content in  your project files with stub files
+  -d, --no-append       do not append stubs that has no user files with same names
+  -i, --no-install      do not run install file
+      --only[=ONLY]     list of files to be merged seperated by comma
 ```
 - dir:list : lists all user created directories or files if user added directory name
 ```bash

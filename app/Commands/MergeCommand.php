@@ -24,9 +24,10 @@ class MergeCommand extends Command
      */
     protected $signature = 'merge 
         {dir : the directory that holds down stub files}
-        {--f|force : replace with user defined values in stub files}
+        {--f|force : replace content in your project files with stub files}
         {--d|no-append : do not append stubs that has no user files with same names}
-        {--n|no-install : do not run install file}
+        {--i|no-install : do not run install file}
+        {--only= : list of files to be merged seperated by comma}
         ';
 
     /**
@@ -38,6 +39,7 @@ class MergeCommand extends Command
 
     public $basePath = '';
     public $userPath = '';
+    public $only;
 
     /**
      * Execute the console command.
@@ -54,6 +56,8 @@ class MergeCommand extends Command
             return;
         }
 
+        $this->only = $this->option('only') ? explode(',', $this->option('only')) : null;
+
         $this->info('Fetching your files...');
         $this->scanDir($this->basePath);
     }
@@ -67,9 +71,14 @@ class MergeCommand extends Command
     private function scanDir(string $dir): void
     {
         chdir($dir);
-        $files = glob('.[eng]*') + glob('*');
+        $files = count($this->only) ? $this->only : glob('.[eng]*') + glob('*');
+
         $scanned = [];
         foreach ($files as $file) {
+            if ($this->only && !file_exists($dir . DIRECTORY_SEPARATOR . $file)) {
+                $this->error("file: " . $file . ' was not found');
+                continue;
+            }
             if (is_dir($file) && !isset($scanned[$file])) {
                 $scanned[] = $file;
                 if (!$this->pathHaveStubs($file)) {
