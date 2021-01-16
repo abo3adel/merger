@@ -16,9 +16,10 @@ class XmlFile extends Merger
      * @param string $stubsDir
      * @return void
      */
-    public function merge(string $file, string $stubsDir): void {
+    public function merge(string $file, string $stubsDir): void
+    {
         $stubFile = $this->readFile($file, $stubsDir);
-        
+
         $baseFile = $this->readFile($file, $this->userDir);
 
         $nodeName = array_keys($baseFile)[0];
@@ -31,7 +32,7 @@ class XmlFile extends Merger
         $baseFile = array_merge($baseFile, $stubFile);
 
         File::put(
-            $this->userDir. DIRECTORY_SEPARATOR . $file,
+            $this->userDir . DIRECTORY_SEPARATOR . $file,
             (Array2XML::createXML($nodeName, $baseFile[$nodeName]))->saveXML()
         );
     }
@@ -40,18 +41,15 @@ class XmlFile extends Merger
      * get file contents as php array
      *
      * @param string $file
-     * @param string|null $dir
      * @return array|null
      */
-    private function readFile(string $file, ?string $dir = null)
+    protected function getContent(string $file)
     {
-        is_dir($dir) ? chdir($dir) : '';
-
         $value = null;
 
         try {
             $value = XML2Array::createArray(file_get_contents($file));;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
         }
 
         return $value;

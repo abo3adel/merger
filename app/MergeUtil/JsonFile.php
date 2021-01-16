@@ -14,9 +14,10 @@ class JsonFile extends Merger
      * @param string $stubsDir
      * @return void
      */
-    public function merge(string $file, string $stubsDir): void {
+    public function merge(string $file, string $stubsDir): void
+    {
         $stubFile = $this->readFile($file, $stubsDir);
-        
+
         $baseFile = $this->readFile($file, $this->userDir);
         $output = $baseFile->toArray();
 
@@ -53,7 +54,7 @@ class JsonFile extends Merger
         }
 
         File::put(
-            $this->userDir. DIRECTORY_SEPARATOR . $file,
+            $this->userDir . DIRECTORY_SEPARATOR . $file,
             json_encode($output, JSON_PRETTY_PRINT)
         );
     }
@@ -62,12 +63,10 @@ class JsonFile extends Merger
      * get file contents as php array
      *
      * @param string $file
-     * @param string|null $dir
-     * @return Collection
+     * @return array|null
      */
-    private function readFile(string $file, ?string $dir = null): Collection
+    protected function getContent(string $file)
     {
-        is_dir($dir) ? chdir($dir) : '';
         return collect(json_decode(file_get_contents($file)));
     }
 

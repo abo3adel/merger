@@ -53,17 +53,14 @@ class InstallFile extends Merger
         exec($command);
     }
 
-    /**
-     * get file contents as php array
-     *
-     * @param string $file
-     * @param string|null $dir
-     * @return array|null
-     */
-    private function readFile(string $file, ?string $dir = null)
+   /**
+    * get file contents as php array
+    *
+    * @param string $file
+    * @return array|null
+    */
+    protected function getContent(string $file)
     {
-        is_dir($dir) ? chdir($dir) : '';
-
         $value = null;
 
         try {
@@ -72,7 +69,7 @@ class InstallFile extends Merger
             printf("\e[1;37;41mError: Unable to parse the YAML file: %s\e[0m\n\n", $file);
         }
 
-        return $value;
+        return $value;     
     }
 
     /**

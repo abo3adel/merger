@@ -31,19 +31,14 @@ class GitFile extends Merger
         );
     }
 
-    /**
-     * get file contents as php array
-     *
-     * @param string $file
-     * @param string|null $dir
-     * @return array|null
-     */
-    private function readFile(string $file, ?string $dir = null)
+   /**
+    * get file contents as php array
+    *
+    * @param string $file
+    * @return array|null
+    */
+    protected function getContent(string $file)
     {
-        is_dir($dir) ? chdir($dir) : '';
-
-        $value = explode("\n", file_get_contents($file));
-
-        return $value;
+        return explode("\n", file_get_contents($file));        
     }
 }

@@ -47,13 +47,10 @@ class EnvFile extends Merger
      * get file contents as php array
      *
      * @param string $file
-     * @param string|null $dir
      * @return array|null
      */
-    private function readFile(string $file, ?string $dir = null)
+    protected function getContent(string $file)
     {
-        is_dir($dir) ? chdir($dir) : '';
-        if (!file_exists($dir . '/' . $file)) return null;
-        return Dotenv::createArrayBacked($dir)->load();
+        return Dotenv::createArrayBacked(getcwd())->load();
     }
 }

@@ -35,13 +35,10 @@ class AppendToFile extends Merger
      * get file contents as php array
      *
      * @param string $file
-     * @param string|null $dir
      * @return array|null
      */
-    private function readFile(string $file, ?string $dir = null)
+    protected function getContent(string $file)
     {
-        is_dir($dir) ? chdir($dir) : '';
-
-        return file_get_contents($file);
+        return file_get_contents($file);        
     }
 }
