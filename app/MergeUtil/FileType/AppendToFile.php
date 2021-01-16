@@ -28,7 +28,7 @@ class AppendToFile extends Merger
         $stubFile = $stubFile[0];
         $baseFile = $baseFile[0];
 
-        $baseFile .= "\n" . $stubFile;
+        $baseFile = $this->force ? $stubFile : $baseFile . "\n" . $stubFile;
 
         $this->writeToFile($file, $baseFile);
     }
