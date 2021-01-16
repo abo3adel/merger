@@ -26,6 +26,7 @@ class MergeCommand extends Command
         {dir : the directory that holds down stub files}
         {--f|force : replace with user defined values in stub files}
         {--d|no-append : do not append stubs that has no user files with same names}
+        {--n|no-install : do not run install file}
         ';
 
     /**
@@ -96,8 +97,9 @@ class MergeCommand extends Command
     private function attachToMerger(string $file, string $dir): void
     {
         $type = File::extension($file);
+        $noInstall = $this->option('no-install');
 
-        if ($file === 'install.yml' || $file === 'install.yaml') {
+        if (!$noInstall && ($file === 'install.yml' || $file === 'install.yaml')) {
             $this->mergerInstance(new Install, $file, $dir);
         } elseif ($type === 'json') {
             $this->mergerInstance(new Json, $file, $dir);
