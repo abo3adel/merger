@@ -1,11 +1,12 @@
 <?php
 
-namespace App\MergeUtil;
+namespace App\MergeUtil\FileType;
 
+use App\MergeUtil\Merger;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
-class InstallFile extends Merger
+class Install extends Merger
 {
     /**
      * merge two files with same names
@@ -18,7 +19,7 @@ class InstallFile extends Merger
         $stubFile = $this->readFile($file, $stubsDir);
 
         if (is_null($stubFile)) {
-            printf("\e[1;37;41mError: Unable to parse the yaml file: %s\e[0m\n\n", $file);
+            $this->error('Error: Unable to parse the yaml file: '. $file);
             return;
         }
 

@@ -1,11 +1,10 @@
 <?php
 
-namespace App\MergeUtil;
+namespace App\MergeUtil\FileType;
 
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\File;
+use App\MergeUtil\Merger;
 
-class JsonFile extends Merger
+class Json extends Merger
 {
     /**
      * merge two files with same names
@@ -19,7 +18,14 @@ class JsonFile extends Merger
         $stubFile = $this->readFile($file, $stubsDir);
 
         $baseFile = $this->readFile($file, $this->userDir);
-        $output = $baseFile->toArray();
+
+        if (
+            !$this->handleFiles($stubFile, $baseFile, $file, 'JSON')
+        ) {
+            return;
+        }
+
+        $output = $baseFile;
 
         /**
          * array of keys that it`s value should be replaced
@@ -43,7 +49,7 @@ class JsonFile extends Merger
             'scripts' => 0,
         ];
 
-        foreach ($stubFile->toBase() as $key => $val) {
+        foreach ($stubFile as $key => $val) {
             if (isset($replaceAbleKeys[$key])) {
                 $this->append($output[$key], $val, true);
             } elseif (isset($reservedKey[$key])) {
@@ -53,10 +59,7 @@ class JsonFile extends Merger
             }
         }
 
-        File::put(
-            $this->userDir . DIRECTORY_SEPARATOR . $file,
-            json_encode($output, JSON_PRETTY_PRINT)
-        );
+        $this->writeToFile($file, $output);
     }
 
     /**
@@ -67,7 +70,18 @@ class JsonFile extends Merger
      */
     protected function getContent(string $file)
     {
-        return collect(json_decode(file_get_contents($file)));
+        return json_decode(file_get_contents($file), true);
+    }
+
+    /**
+     * transform content into string
+     *
+     * @param array|string $content
+     * @return string
+     */
+    protected function stringfyContent($content): string
+    {
+        return json_encode($content, JSON_PRETTY_PRINT);
     }
 
     /**

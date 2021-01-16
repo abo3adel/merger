@@ -1,13 +1,14 @@
 <?php
 
-namespace App\MergeUtil;
+namespace App\MergeUtil\FileType;
 
+use App\MergeUtil\Merger;
 use Exception;
 use Illuminate\Support\Facades\File;
 use LaLit\XML2Array;
 use LaLit\Array2XML;
 
-class XmlFile extends Merger
+class Xml extends Merger
 {
     /**
      * merge two files with same names
@@ -22,12 +23,13 @@ class XmlFile extends Merger
 
         $baseFile = $this->readFile($file, $this->userDir);
 
-        $nodeName = array_keys($baseFile)[0];
-
-        if (is_null($stubFile) || is_null($baseFile)) {
-            printf("\e[1;37;41mError: Unable to parse the XML file: %s\e[0m\n\n", $file);
+        if (
+            !$this->handleFiles($stubFile, $baseFile, $file, 'XML')
+        ) {
             return;
         }
+
+        $nodeName = array_keys($baseFile)[0];
 
         $baseFile = array_merge($baseFile, $stubFile);
 
@@ -53,5 +55,16 @@ class XmlFile extends Merger
         }
 
         return $value;
+    }
+
+    /**
+     * transform content into string
+     *
+     * @param array|string $content
+     * @return string
+     */
+    protected function stringfyContent($content): string
+    {
+        return (Array2XML::createXML('node', $content))->saveXML();
     }
 }

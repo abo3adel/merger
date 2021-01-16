@@ -1,10 +1,10 @@
 <?php
 
-namespace App\MergeUtil;
+namespace App\MergeUtil\FileType;
 
-use Illuminate\Support\Facades\File;
+use App\MergeUtil\Merger;
 
-class GitFile extends Merger
+class Git extends Merger
 {
     /**
      * merge two files with same names
@@ -18,17 +18,15 @@ class GitFile extends Merger
         
         $baseFile = $this->readFile($file, $this->userDir);
 
-        if (is_null($stubFile) || is_null($baseFile)) {
-            printf("\e[1;37;41mError: Unable to parse the file: %s\e[0m\n\n", $file);
+        if (
+            !$this->handleFiles($stubFile, $baseFile, $file, 'GIT')
+        ) {
             return;
         }
 
         $baseFile = array_merge($baseFile, $stubFile);
 
-        File::put(
-            $this->userDir. DIRECTORY_SEPARATOR . $file,
-            implode("\n", $baseFile)
-        );
+        $this->writeToFile($file, $baseFile);
     }
 
    /**

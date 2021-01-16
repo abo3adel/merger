@@ -1,14 +1,11 @@
 <?php
 
-namespace App\MergeUtil;
+namespace App\MergeUtil\FileType;
 
-use Illuminate\Support\Facades\File;
-use NunoMaduro\Collision\ConsoleColor;
-use Symfony\Component\Yaml\Exception\ParseException;
-use Symfony\Component\Yaml\Yaml;
+use App\MergeUtil\Merger;
+use Dotenv\Dotenv;
 
-
-class YamlFile extends Merger
+class Env extends Merger
 {
     /**
      * merge two files with same names
@@ -23,18 +20,24 @@ class YamlFile extends Merger
 
         $baseFile = $this->readFile($file, $this->userDir);
 
-        if (is_null($stubFile) || is_null($baseFile)) {
+        if (
+            !$this->handleFiles($stubFile, $baseFile, $file, 'ENV')
+        ) {
             return;
         }
-
+    
         $baseFile = $this->force ?
             array_merge($baseFile, $stubFile) :
             $baseFile + $stubFile;
 
-        File::put(
-            $this->userDir . DIRECTORY_SEPARATOR . $file,
-            Yaml::dump($baseFile)
-        );
+        $output = [];
+        foreach ($baseFile as $key => $val) {
+            $output[] = strpos($val, ' ') === false ?
+                $key . '=' . $val :
+                $key . '="' . $val . '"';
+        }
+
+        $this->writeToFile($file, $output);
     }
 
     /**
@@ -45,14 +48,6 @@ class YamlFile extends Merger
      */
     protected function getContent(string $file)
     {
-        $value = null;
-
-        try {
-            $value = Yaml::parseFile($file);
-        } catch (ParseException $exception) {
-            printf("\e[1;37;41mError: Unable to parse the YAML file: %s\e[0m\n\n", $file);
-        }
-
-        return $value;
+        return Dotenv::createArrayBacked(getcwd())->load();
     }
 }

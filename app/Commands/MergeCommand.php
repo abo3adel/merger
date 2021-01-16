@@ -3,18 +3,16 @@
 namespace App\Commands;
 
 use App\Helpers;
-use App\MergeUtil\AppendToFile;
-use App\MergeUtil\EnvFile;
-use App\MergeUtil\GitFile;
-use App\MergeUtil\InstallFile;
-use App\MergeUtil\JsonFile;
+use App\MergeUtil\FileType\AppendToFile;
+use App\MergeUtil\FileType\Env;
+use App\MergeUtil\FileType\Git;
+use App\MergeUtil\FileType\Install;
+use App\MergeUtil\FileType\Json;
+use App\MergeUtil\FileType\Xml;
+use App\MergeUtil\FileType\Yaml;
 use App\MergeUtil\MergerInterface;
-use App\MergeUtil\XmlFile;
-use App\MergeUtil\YamlFile;
-use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use LaravelZero\Framework\Commands\Command;
 
 class MergeCommand extends Command
@@ -26,7 +24,9 @@ class MergeCommand extends Command
      */
     protected $signature = 'merge 
         {dir : the directory that holds down stub files}
-        {--f|force : replace with user defined values in stub files}';
+        {--f|force : replace with user defined values in stub files}
+        {--d|no-append : do not append stubs that has no user files with same names}
+        ';
 
     /**
      * The description of the command.
@@ -98,17 +98,17 @@ class MergeCommand extends Command
         $type = File::extension($file);
 
         if ($file === 'install.yml' || $file === 'install.yaml') {
-            $this->mergerInstance(new InstallFile, $file, $dir);
+            $this->mergerInstance(new Install, $file, $dir);
         } elseif ($type === 'json') {
-            $this->mergerInstance(new JsonFile, $file, $dir);
+            $this->mergerInstance(new Json, $file, $dir);
         } elseif ($type === 'env') {
-            $this->mergerInstance(new EnvFile, $file, $dir);
+            $this->mergerInstance(new Env, $file, $dir);
         } elseif ($type === 'yml' || $type === 'yaml') {
-            $this->mergerInstance(new YamlFile, $file, $dir);
+            $this->mergerInstance(new Yaml, $file, $dir);
         } elseif (strpos($type, 'git') !== false) {
-            $this->mergerInstance(new GitFile, $file, $dir);
+            $this->mergerInstance(new Git, $file, $dir);
         } elseif ($type === 'xml' || $type === 'dist') {
-            $this->mergerInstance(new XmlFile, $file, $dir);
+            $this->mergerInstance(new Xml, $file, $dir);
         } else {
             // append text to any file type
             $this->mergerInstance(new AppendToFile, $file, $dir);
@@ -131,6 +131,7 @@ class MergeCommand extends Command
         (new $merger)
           ->setUserDir($this->userPath)
             ->setForce($this->option('force'))
+            ->setNoAppend($this->option('no-append'))
             ->merge($file, $dir);
     }
 

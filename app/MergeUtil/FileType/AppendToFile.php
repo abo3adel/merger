@@ -1,7 +1,8 @@
 <?php
 
-namespace App\MergeUtil;
+namespace App\MergeUtil\FileType;
 
+use App\MergeUtil\Merger;
 use Illuminate\Support\Facades\File;
 
 class AppendToFile extends Merger
@@ -18,17 +19,18 @@ class AppendToFile extends Merger
         
         $baseFile = $this->readFile($file, $this->userDir);
 
-        if (is_null($stubFile) || is_null($baseFile)) {
-            printf("\e[1;37;41mError: Unable to parse the file: %s\e[0m\n\n", $file);
+        if (
+            !$this->handleFiles($stubFile, $baseFile, $file)
+        ) {
             return;
         }
 
+        $stubFile = $stubFile[0];
+        $baseFile = $baseFile[0];
+
         $baseFile .= "\n" . $stubFile;
 
-        File::put(
-            $this->userDir. DIRECTORY_SEPARATOR . $file,
-            $baseFile
-        );
+        $this->writeToFile($file, $baseFile);
     }
 
     /**
@@ -39,6 +41,6 @@ class AppendToFile extends Merger
      */
     protected function getContent(string $file)
     {
-        return file_get_contents($file);        
+        return [file_get_contents($file)];        
     }
 }
