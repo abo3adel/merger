@@ -71,7 +71,7 @@ class MergeCommand extends Command
     private function scanDir(string $dir): void
     {
         chdir($dir);
-        $files = count($this->only) ? $this->only : glob('.[eng]*') + glob('*');
+        $files = $this->only ? $this->only : glob('.[eng]*') + glob('*');
 
         $scanned = [];
         foreach ($files as $file) {
